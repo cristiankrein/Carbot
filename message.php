@@ -57,7 +57,7 @@ if ((mysqli_num_rows($procura_nome)<1) || $questao["questao"] == 0){
     }else if($questao["questao"] == 3 && $resp == 0){
         $inserir = mysqli_query($conn,"update respostas set quest_2='$resp', questao=4")or die(mysqli_error($conn));
         if($inserir){
-            $replay = 'Apenas opção de gasolina como Combustível?';
+            $replay = 'Apenas opção de álcool como Combustível?';
             echo $replay;
         }else{
             $replay = 'Erro ao inserir Combustível gasolina';
@@ -76,7 +76,7 @@ if ((mysqli_num_rows($procura_nome)<1) || $questao["questao"] == 0){
     }else if($questao["questao"] == 4 && $resp == 0){
         $inserir = mysqli_query($conn,"update respostas set quest_3='$resp', questao=5")or die(mysqli_error($conn));
         if($inserir){
-            $replay = 'Apenas opção de álcool como Combustível?';
+            $replay = 'Apenas opção de diesel como Combustível?';
             echo $replay;
         }else{
             $replay = 'Erro ao inserir Combustível álcool';
@@ -93,31 +93,12 @@ if ((mysqli_num_rows($procura_nome)<1) || $questao["questao"] == 0){
             echo $replay;
         }
     }else if($questao["questao"] == 5 && $resp == 0){
-        $inserir = mysqli_query($conn,"update respostas set quest_4='$resp', questao=6")or die(mysqli_error($conn));
-        if($inserir){
-            $replay = 'Apenas opção de diesel como Combustível?';
-            echo $replay;
-        }else{
-            $replay = 'Erro ao inserir Combustível diesel';
-            echo $replay;
-        }
-    }else if($questao["questao"] == 6 && $resp == 1){
-        //Insere se é a eletrico
-        $inserir = mysqli_query($conn,"update respostas set quest_5='$resp', questao=7")or die(mysqli_error($conn));
-        if($inserir){
-            $replay = 'Câmbio manual?';
-            echo $replay;
-        }else{
-            $replay = 'Erro ao inserir Cambio Manual';
-            echo $replay;
-        }
-    }else if($questao["questao"] == 6 && $resp == 0){
         $inserir = mysqli_query($conn,"update respostas set quest_5=1, questao=7")or die(mysqli_error($conn));
         if($inserir){
             $replay = 'Dentre as opções disponível, apenas restou a opção eletrico de combustível, a qual foi marcada automaticamente por ser a única opção ainda disponível. <br><br> Câmbio manual?';
             echo $replay;
         }else{
-            $replay = 'Erro ao inserir Combustível eletrico';
+            $replay = 'Erro ao inserir Combustível diesel';
             echo $replay;
         }
     }else if($questao["questao"] == 7 && $resp == 1){
@@ -276,9 +257,19 @@ if ((mysqli_num_rows($procura_nome)<1) || $questao["questao"] == 0){
             media_litro_acima_10='$media_litro_acima_10' and media_litro_abaixo_10='$media_litro_abaixo_10' and cat_suv='$cat_suv' and cat_hatch='$cat_hatch' and cat_esportivo='$cat_esportivo' and 
             cat_seda='$cat_seda' and cat_picape='$cat_picape' limit 1");
         
+            $respostas_final_90 = mysqli_query($conn, "select marca,modelo,link from caracteristicas where cambio_manual='$cambio_manual' and cambio_automatico='$cambio_automatico' and 
+            quant_portas_2='$quant_portas_2' and quant_portas_4='$quant_portas_4' and quant_lugares_2='$quant_lugares_2' and quant_lugares_5='$quant_lugares_5' and 
+            porta_malas_grande='$porta_malas_grande' and porta_malas_pequeno='$porta_malas_pequeno' and peso_leve='$peso_leve' and peso_pesado='$peso_pesado' and 
+            media_litro_acima_10='$media_litro_acima_10' and media_litro_abaixo_10='$media_litro_abaixo_10' and cat_suv='$cat_suv' and cat_hatch='$cat_hatch' and cat_esportivo='$cat_esportivo' and 
+            cat_seda='$cat_seda' and cat_picape='$cat_picape' limit 1");
+        
+            $resp_final_90 = mysqli_fetch_array($respostas_final_90);
             $resp_final = mysqli_fetch_array($respostas_final);
             if ((mysqli_num_rows($respostas_final)>=1)){
                 $replay = "".$nome["nome"].", o seu carro ideal é o modelo ".$resp_final["modelo"]." da marca ".$resp_final["marca"].". <br><br> Você pode encontrar mais detalhes do carro neste link: " .$resp_final["link"]."";
+                echo $replay;
+            }else if(mysqli_num_rows($respostas_final_90)>=1){
+                $replay = "".$nome["nome"].", o seu carro ideal com até 90% de compatibilidade é o modelo ".$resp_final_90["modelo"]." da marca ".$resp_final_90["marca"].". <br><br> Você pode encontrar mais detalhes do carro neste link: " .$resp_final_90["link"]."";
                 echo $replay;
             }else{
                 $replay = 'Não encontramos um carro ideal para você em nossa base de dados.';
@@ -334,9 +325,19 @@ if ((mysqli_num_rows($procura_nome)<1) || $questao["questao"] == 0){
             media_litro_acima_10='$media_litro_acima_10' and media_litro_abaixo_10='$media_litro_abaixo_10' and cat_suv='$cat_suv' and cat_hatch='$cat_hatch' and cat_esportivo='$cat_esportivo' and 
             cat_seda='$cat_seda' and cat_picape='$cat_picape' limit 1");
         
+            $respostas_final_90 = mysqli_query($conn, "select marca,modelo,link from caracteristicas where cambio_manual='$cambio_manual' and cambio_automatico='$cambio_automatico' and 
+            quant_portas_2='$quant_portas_2' and quant_portas_4='$quant_portas_4' and quant_lugares_2='$quant_lugares_2' and quant_lugares_5='$quant_lugares_5' and 
+            porta_malas_grande='$porta_malas_grande' and porta_malas_pequeno='$porta_malas_pequeno' and peso_leve='$peso_leve' and peso_pesado='$peso_pesado' and 
+            media_litro_acima_10='$media_litro_acima_10' and media_litro_abaixo_10='$media_litro_abaixo_10' and cat_suv='$cat_suv' and cat_hatch='$cat_hatch' and cat_esportivo='$cat_esportivo' and 
+            cat_seda='$cat_seda' and cat_picape='$cat_picape' limit 1");
+        
+            $resp_final_90 = mysqli_fetch_array($respostas_final_90);
             $resp_final = mysqli_fetch_array($respostas_final);
             if ((mysqli_num_rows($respostas_final)>=1)){
                 $replay = "".$nome["nome"].", o seu carro ideal é o modelo ".$resp_final["modelo"]." da marca ".$resp_final["marca"].". <br><br> Você pode encontrar mais detalhes do carro neste link: " .$resp_final["link"]."";
+                echo $replay;
+            }else if(mysqli_num_rows($respostas_final_90)>=1){
+                $replay = "".$nome["nome"].", o seu carro ideal com até 90% de compatibilidade é o modelo ".$resp_final_90["modelo"]." da marca ".$resp_final_90["marca"].". <br><br> Você pode encontrar mais detalhes do carro neste link: " .$resp_final_90["link"]."";
                 echo $replay;
             }else{
                 $replay = 'Não encontramos um carro ideal para você em nossa base de dados.';
@@ -392,9 +393,19 @@ if ((mysqli_num_rows($procura_nome)<1) || $questao["questao"] == 0){
             media_litro_acima_10='$media_litro_acima_10' and media_litro_abaixo_10='$media_litro_abaixo_10' and cat_suv='$cat_suv' and cat_hatch='$cat_hatch' and cat_esportivo='$cat_esportivo' and 
             cat_seda='$cat_seda' and cat_picape='$cat_picape' limit 1");
         
+            $respostas_final_90 = mysqli_query($conn, "select marca,modelo,link from caracteristicas where cambio_manual='$cambio_manual' and cambio_automatico='$cambio_automatico' and 
+            quant_portas_2='$quant_portas_2' and quant_portas_4='$quant_portas_4' and quant_lugares_2='$quant_lugares_2' and quant_lugares_5='$quant_lugares_5' and 
+            porta_malas_grande='$porta_malas_grande' and porta_malas_pequeno='$porta_malas_pequeno' and peso_leve='$peso_leve' and peso_pesado='$peso_pesado' and 
+            media_litro_acima_10='$media_litro_acima_10' and media_litro_abaixo_10='$media_litro_abaixo_10' and cat_suv='$cat_suv' and cat_hatch='$cat_hatch' and cat_esportivo='$cat_esportivo' and 
+            cat_seda='$cat_seda' and cat_picape='$cat_picape' limit 1");
+        
+            $resp_final_90 = mysqli_fetch_array($respostas_final_90);
             $resp_final = mysqli_fetch_array($respostas_final);
             if ((mysqli_num_rows($respostas_final)>=1)){
                 $replay = "".$nome["nome"].", o seu carro ideal é o modelo ".$resp_final["modelo"]." da marca ".$resp_final["marca"].". <br><br> Você pode encontrar mais detalhes do carro neste link: " .$resp_final["link"]."";
+                echo $replay;
+            }else if(mysqli_num_rows($respostas_final_90)>=1){
+                $replay = "".$nome["nome"].", o seu carro ideal com até 90% de compatibilidade é o modelo ".$resp_final_90["modelo"]." da marca ".$resp_final_90["marca"].". <br><br> Você pode encontrar mais detalhes do carro neste link: " .$resp_final_90["link"]."";
                 echo $replay;
             }else{
                 $replay = 'Não encontramos um carro ideal para você em nossa base de dados.';
@@ -449,10 +460,20 @@ if ((mysqli_num_rows($procura_nome)<1) || $questao["questao"] == 0){
             porta_malas_grande='$porta_malas_grande' and porta_malas_pequeno='$porta_malas_pequeno' and peso_leve='$peso_leve' and peso_pesado='$peso_pesado' and 
             media_litro_acima_10='$media_litro_acima_10' and media_litro_abaixo_10='$media_litro_abaixo_10' and cat_suv='$cat_suv' and cat_hatch='$cat_hatch' and cat_esportivo='$cat_esportivo' and 
             cat_seda='$cat_seda' and cat_picape='$cat_picape' limit 1");
+
+            $respostas_final_90 = mysqli_query($conn, "select marca,modelo,link from caracteristicas where cambio_manual='$cambio_manual' and cambio_automatico='$cambio_automatico' and 
+            quant_portas_2='$quant_portas_2' and quant_portas_4='$quant_portas_4' and quant_lugares_2='$quant_lugares_2' and quant_lugares_5='$quant_lugares_5' and 
+            porta_malas_grande='$porta_malas_grande' and porta_malas_pequeno='$porta_malas_pequeno' and peso_leve='$peso_leve' and peso_pesado='$peso_pesado' and 
+            media_litro_acima_10='$media_litro_acima_10' and media_litro_abaixo_10='$media_litro_abaixo_10' and cat_suv='$cat_suv' and cat_hatch='$cat_hatch' and cat_esportivo='$cat_esportivo' and 
+            cat_seda='$cat_seda' and cat_picape='$cat_picape' limit 1");
         
+            $resp_final_90 = mysqli_fetch_array($respostas_final_90);
             $resp_final = mysqli_fetch_array($respostas_final);
             if ((mysqli_num_rows($respostas_final)>=1)){
                 $replay = "".$nome["nome"].", o seu carro ideal é o modelo ".$resp_final["modelo"]." da marca ".$resp_final["marca"].". <br><br> Você pode encontrar mais detalhes do carro neste link: " .$resp_final["link"]."";
+                echo $replay;
+            }else if(mysqli_num_rows($respostas_final_90)>=1){
+                $replay = "".$nome["nome"].", o seu carro ideal com até 90% de compatibilidade é o modelo ".$resp_final_90["modelo"]." da marca ".$resp_final_90["marca"].". <br><br> Você pode encontrar mais detalhes do carro neste link: " .$resp_final_90["link"]."";
                 echo $replay;
             }else{
                 $replay = 'Não encontramos um carro ideal para você em nossa base de dados.';
@@ -498,10 +519,20 @@ if ((mysqli_num_rows($procura_nome)<1) || $questao["questao"] == 0){
             porta_malas_grande='$porta_malas_grande' and porta_malas_pequeno='$porta_malas_pequeno' and peso_leve='$peso_leve' and peso_pesado='$peso_pesado' and 
             media_litro_acima_10='$media_litro_acima_10' and media_litro_abaixo_10='$media_litro_abaixo_10' and cat_suv='$cat_suv' and cat_hatch='$cat_hatch' and cat_esportivo='$cat_esportivo' and 
             cat_seda='$cat_seda' and cat_picape='$cat_picape' limit 1");
+            
+            $respostas_final_90 = mysqli_query($conn, "select marca,modelo,link from caracteristicas where cambio_manual='$cambio_manual' and cambio_automatico='$cambio_automatico' and 
+            quant_portas_2='$quant_portas_2' and quant_portas_4='$quant_portas_4' and quant_lugares_2='$quant_lugares_2' and quant_lugares_5='$quant_lugares_5' and 
+            porta_malas_grande='$porta_malas_grande' and porta_malas_pequeno='$porta_malas_pequeno' and peso_leve='$peso_leve' and peso_pesado='$peso_pesado' and 
+            media_litro_acima_10='$media_litro_acima_10' and media_litro_abaixo_10='$media_litro_abaixo_10' and cat_suv='$cat_suv' and cat_hatch='$cat_hatch' and cat_esportivo='$cat_esportivo' and 
+            cat_seda='$cat_seda' and cat_picape='$cat_picape' limit 1");
         
+            $resp_final_90 = mysqli_fetch_array($respostas_final_90);
             $resp_final = mysqli_fetch_array($respostas_final);
             if ((mysqli_num_rows($respostas_final)>=1)){
                 $replay = "Dentre as opções disponíveis, apenas restou carros com categoria picape, a qual foi marcada automaticamente por ser a única opção ainda disponível. <br><br>".$nome["nome"].", o seu carro ideal é o modelo ".$resp_final["modelo"]." da marca ".$resp_final["marca"].". <br><br> Você pode encontrar mais detalhes do carro neste link: " .$resp_final["link"]."";
+                echo $replay;
+            }else if(mysqli_num_rows($respostas_final_90)>=1){
+                $replay = "Dentre as opções disponíveis, apenas restou carros com categoria picape, a qual foi marcada automaticamente por ser a única opção ainda disponível. <br><br>".$nome["nome"].", o seu carro ideal com até 90% de compatibilidade é o modelo ".$resp_final_90["modelo"]." da marca ".$resp_final_90["marca"].". <br><br> Você pode encontrar mais detalhes do carro neste link: " .$resp_final_90["link"]."";
                 echo $replay;
             }else{
                 $replay = 'Não encontramos um carro ideal para você em nossa base de dados.';
